@@ -9,4 +9,11 @@ def test_1 ():
     #print (A.queen)
     #print (A.conflict())
 
-test_1()
+def test_2 ():
+    A = dfs(5)
+    sol=A.sol()
+    print (sol)
+    print ("------")
+    print (A.visited)
+
+test_2()
