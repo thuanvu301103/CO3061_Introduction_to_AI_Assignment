@@ -1,7 +1,7 @@
 from nqueens import *
 
 def test_1 ():
-    A = dfs(10)
+    A = dfs(100)
     A.check_sol()
     #A.add_queen(1,2)
     #A.add_queen(2,1)
@@ -10,7 +10,7 @@ def test_1 ():
     #print (A.conflict())
 
 def test_2 ():
-    A = dfs(4)
+    A = dfs(2)
     sol=A.sol()
     print (sol)
 
