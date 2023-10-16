@@ -63,7 +63,7 @@ class dfs (n_queens):
                 new_state = self.place_queen(curr_state, i)
                 if new_state == []: continue
                 stack += [new_state]
-            self.visited += [curr_state]
+            #self.visited += [curr_state]
         #if self.check_sol(curr_state): return curr_state
         print ("No solution")
         return []

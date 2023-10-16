@@ -1,7 +1,7 @@
 from nqueens import *
 
 def test_1 ():
-    A = dfs(100000000)
+    A = dfs(10)
     A.check_sol()
     #A.add_queen(1,2)
     #A.add_queen(2,1)
@@ -10,10 +10,8 @@ def test_1 ():
     #print (A.conflict())
 
 def test_2 ():
-    A = dfs(5)
+    A = dfs(500)
     sol=A.sol()
     print (sol)
-    print ("------")
-    print (A.visited)
 
 test_2()
