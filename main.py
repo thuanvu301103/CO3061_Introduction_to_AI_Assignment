@@ -10,7 +10,7 @@ def test_1 ():
     #print (A.conflict())
 
 def test_2 ():
-    A = dfs(500)
+    A = dfs(4)
     sol=A.sol()
     print (sol)
 
