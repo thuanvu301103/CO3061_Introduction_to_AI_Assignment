@@ -42,9 +42,14 @@ class n_queens:
                     row_curr = state[j-1]
                     cross_1_curr = row_curr + (j-1)
                     cross_2_curr = row_curr + (self.n-j)
-                    if row_curr == row or cross_1_curr == cross_1 or cross_2_curr == cross_2:
-                        #print ("Solution is False")
+                    if row_curr == row:
                         return False
+                    if cross_1_curr == cross_1:
+                        return False
+                    if cross_2_curr == cross_2:
+                        return False
+                        #print ("Solution is False")
+                        #return False
             #print ("Solution is True")
             return True
 
@@ -55,7 +60,8 @@ class dfs (n_queens):
         self.visited = []
         while len(stack) != 0:
             curr_state = stack.pop(-1)
-            if self.check_sol(curr_state): return curr_state
+            #if self.check_sol(curr_state): return curr_state
+            if len(curr_state) == self.n: return curr_state
             val = [i for i in range(1, self.n+1)] 
             random.shuffle(val)
             #print(val)
@@ -63,7 +69,7 @@ class dfs (n_queens):
                 new_state = self.place_queen(curr_state, i)
                 if new_state == []: continue
                 stack += [new_state]
-            #self.visited += [curr_state]
+            self.visited += [curr_state]
         #if self.check_sol(curr_state): return curr_state
         print ("No solution")
         return []
@@ -75,4 +81,3 @@ class brfs (n_queens):
 
 class heuristic:
     pass
-
