@@ -16,7 +16,7 @@ In this assignment, we will use Python 3 to solve N-queens problem, so make sure
   1. Evaluate the initial state: No queen has been place on the chessboard. Then put initial state on the top of a stack
   2. Take the state on the top of the stack and add to visited list
   3. Create a list of successor state of that state by applying legal action. Add all of them on the top of the stack
-  4. Repeat (2) and (3) until the stack is empty or there are no more actions that can be applied 
+  4. Repeat (2.) and (3.) until the stack is empty or there are no more actions that can be applied 
 - Implementation (using Python):
   1. Evaluate the initial state: A state is represent by a 
   2. How to know if two queens attacking eachother?
