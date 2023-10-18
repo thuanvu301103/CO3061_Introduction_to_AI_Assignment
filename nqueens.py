@@ -100,6 +100,7 @@ class hillclimbing:
                 if cross_1_curr == cross_1: h += 1
                 if cross_2_curr == cross_2: h += 1
         return h
+
     def sol(self):
         curr_state = self.initstate
         h = self.h(curr_state)
