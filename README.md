@@ -23,13 +23,13 @@ The N-queens problem is a problem that requires placing N queens on an NxN chess
   1. Initial function:
     + The number of queen: ```self.n```
     + A state is represent by a ```list```:
+      <div>
+         <img src="./img/pic1.png" width="200">
+      </div>
        * Each element in the list represent a column;
        * The order of column equals the index of corresponding elemnt plus 1;
        * The value of element is the row that the queen will be placed on the chessboard; 
        * The lenght of list (```len(<list>)```) represent the number of queens that have been placed on the chessboard; the order of a column equals sum of the index
-<div>
- <img src="./img/pic1.png" width="200">
-</div>
     + Initial state: empty list ```self.initstate = []```
   3. Take the state on the top of the stack and add to visited list
 ### Breath Fít Search (BrFS) approach
