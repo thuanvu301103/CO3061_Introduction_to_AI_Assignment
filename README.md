@@ -21,11 +21,11 @@ The N-queens problem is a problem that requires placing N queens on an NxN chess
   4. Repeat (2.) and (3.) until the stack is empty or there are no more actions that can be applied 
 - Implementation (using Python):
   1. Initial function:
-     
-     <img src="./img/pic1.png" width="200">
-     
     + The number of queen: ```self.n```
     + A state is represent by a ```list```:
+
+    <img src="./img/pic1.png" width="200">
+      
        * Each element in the list represent a column;
        * The order of column equals the index of corresponding elemnt plus 1;
        * The value of element is the row that the queen will be placed on the chessboard; 
