@@ -27,7 +27,8 @@ The N-queens problem is a problem that requires placing N queens on an NxN chess
        * The order of column equals the index of corresponding elemnt plus 1;
        * The value of element is the row that the queen will be placed on the chessboard; 
        * The lenght of list (```len(<list>)```) represent the number of queens that have been placed on the chessboard; the order of a column equals sum of the index
-        <div>
+        Using inline CSS to center a div can be done in different ways, depending on the layout and the desired effect. Here are some possible methods and examples:
+        <div style="text-align: center;">
           <img src="./img/pic1.png" width="200">
         </div>
     + Initial state: empty list ```self.initstate = []```
