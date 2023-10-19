@@ -29,6 +29,7 @@ The N-queens problem is a problem that requires placing N queens on an NxN chess
        * The lenght of list (```len(<list>)```) represent the number of queens that have been placed on the chessboard; 
         <p align="center">
           <img src="./img/pic1.png" width="200">
+          <img src="./img/pic2.png" width="200">
         </p>
     + Initial state: empty list ```self.initstate = []```
   3. Take the state on the top of the stack and add to visited list
