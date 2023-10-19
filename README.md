@@ -27,7 +27,7 @@ The N-queens problem is a problem that requires placing N queens on an NxN chess
        * The order of column equals the index of corresponding elemnt plus 1;
        * The value of element is the row that the queen will be placed on the chessboard; 
        * The lenght of list (```len(<list>)```) represent the number of queens that have been placed on the chessboard; the order of a column equals sum of the index
-         ! [state] (/repository/img/pic1.png?raw=true)
+         ! [state] (./img/pic1.png)
     + Initial state: empty list ```self.initstate = []```
   3. Take the state on the top of the stack and add to visited list
 ### Breath Fít Search (BrFS) approach
