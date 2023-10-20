@@ -28,11 +28,25 @@ The N-queens problem is a problem that requires placing N queens on an NxN chess
        * The value of element is the row that the queen will be placed on the chessboard; 
        * The lenght of list (```len(<list>)```) represent the number of queens that have been placed on the chessboard; 
         <p align="center">
-          <img src="./img/pic1.png" width="200">
-          <img src="./img/pic2.png" width="200">
+          <img src="./img/pic1.png" height="200">
+          <img src="./img/pic2.png" height="200">
         </p>
     + Initial state: empty list ```self.initstate = []```
-  3. Take the state on the top of the stack and add to visited list
+  2. Action function: Add a queen to any square in the leftmost empty column such that it is not attacked by any other queen
+    + Parameter:
+        * ```curr_state```: current state
+        * ```x```: the position of square in the leftmost empty column that the queen is added to
+    + Process:
+        * Generate new state: ```new_state = curr_state + [x]```
+        * If the curent state has no queen on chessboard (initial state) then the action add new queen is alway legal, return ```new_state```
+        * Otherwise, check whether the new added queen is attacking old queens or not. If conflict occurs then the action is illegal, else legal: Two queens attack eachother when they have the same row index or the same value ```abs(row_index - column_index)```
+        <p align="center">
+          <img src="./img/pic3.png" height="200">
+          <img src="./img/pic4.png" height="200">
+        </p>
+    + Return value:
+        * Empty list ```[]``` if action is not legal
+        * New state if action is legal
 ### Breath Fít Search (BrFS) approach
 - State-space: All possible arrangements of a queens (0 < a < n), one per column in the leftmost a columns, with no queen attacking another.
 - Actions: Add a queen to any square in the leftmost empty column such that it is not attacked by any other queen.
