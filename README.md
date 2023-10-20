@@ -16,9 +16,9 @@ The N-queens problem is a problem that requires placing N queens on an NxN chess
 - Actions: Add a queen to any square in the leftmost empty column such that it is not attacked by any other queen.
 - Algorithms:
   1. Evaluate the initial state: No queen has been place on the chessboard. Then put initial state on the top of a stack
-  2. Take the state on the top of the stack and add to visited list
-  3. Create a list of successor state of that state by applying legal action. Add all of them on the top of the stack
-  4. Repeat (2.) and (3.) until the stack is empty or there are no more actions that can be applied 
+  2. Take the state on the top of the stack and add to visited list. If that state is the solution then end algorithm
+  3. Create a list of successor states of that state by applying legal action. Add all of them on the top of the stack
+  4. Repeat (2.) and (3.) until the stack is empty or there are no more actions that can be applied
 - Implementation (using Python):
   1. Initial function:
     + The number of queen: ```self.n```
@@ -32,14 +32,14 @@ The N-queens problem is a problem that requires placing N queens on an NxN chess
           <img src="./img/pic2.png" height="200">
         </p>
     + Initial state: empty list ```self.initstate = []```
-  2. Action function: Add a queen to any square in the leftmost empty column such that it is not attacked by any other queen
+  2. Action (Move) function: Add a queen to any square in the leftmost empty column such that it is not attacked by any other queen
     + Parameter:
         * ```curr_state```: current state
         * ```x```: the position of square in the leftmost empty column that the queen is added to
     + Process:
         * Generate new state: ```new_state = curr_state + [x]```
         * If the curent state has no queen on chessboard (initial state) then the action add new queen is alway legal, return ```new_state```
-        * Otherwise, check whether the new added queen is attacking old queens or not. If conflict occurs then the action is illegal, else legal: Two queens attack eachother when they have the same row index or the same value ```abs(row_index - column_index)```
+        * Otherwise, check whether the new added queen is attacking old queens or not. If conflict occurs then the action is illegal, else legal: Two queens attack eachother when they have the same row index or satisfies condition ```abs(row_index_queen1 - row_index_queen2) == abs(column_index_queen1 - column_index_queen2)```
         <p align="center">
           <img src="./img/pic3.png" height="200">
           <img src="./img/pic4.png" height="200">
@@ -47,6 +47,12 @@ The N-queens problem is a problem that requires placing N queens on an NxN chess
     + Return value:
         * Empty list ```[]``` if action is not legal
         * New state if action is legal
+  3. Solve function:
+    + Evaluate initial state: ```self.initstate = []``` and a stack  ```stack = [self.initstate]```
+    + Loop until the stack is empty ```len(stack) == 0```
+      * Take the state on top of the stack as current state. If curent state is the solution - the length of current state equals the max number of queens ```len(curr_state)==self.n``` - then ```return curr_state```
+      * Generate all possible succesors states of current state by applying ```add_queen()``` then push to the stack
+    + Print out no solution found and return empty list ```[]```
 ### Breath Fít Search (BrFS) approach
 - State-space: All possible arrangements of a queens (0 < a < n), one per column in the leftmost a columns, with no queen attacking another.
 - Actions: Add a queen to any square in the leftmost empty column such that it is not attacked by any other queen.
