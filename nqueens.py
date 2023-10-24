@@ -33,24 +33,26 @@ def gen_tree (n):
         for i in range (len(lines)):
             state = ast.literal_eval(lines[i])
             states += [state]
-        print (states)
+        #print (states)
         print ("Number of visited states: " + str(len(states)))
     tree = Tree()
     for i in range(len(states)):
         if len(states[i]) == 0:
-            tree.create_node("start", f"{i}")
+            tree.create_node("start", f"{i+1}")
         else:
             parent = i
             while (len(states[parent])+1 != len(states[i])):
                 parent = parent - 1
             if len(states[i]) == n:
-                tree.create_node("final", f"{i}", f"{parent}")
+                tree.create_node("final", f"{i+1}", f"{parent+1}")
             else:
-                tree.create_node(f"[{i}]", f"{i}", f"{parent}" )  
-    tree.save2file ('tree.txt')
+                tree.create_node(f"[{i+1}]", f"{i+1}", f"{parent+1}" )  
+    tree.save2file ('tree.txt', sorting=False)
     print ("Enter <end> to stop traver tree.")
     a = input("Traver node: ")
     while a != "end":
+        if a == "start": a = 0
+        if a == "final": a = len(states)-1
         visual(n, states[int(a)])
         a = input("Traver node: ")
 
