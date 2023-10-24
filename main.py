@@ -18,7 +18,7 @@ def visual(n, lst):
     #print (res)
     for i in range(n):
         res[lst[i]-1][i] = -1
-    cmap = ListedColormap(["lightgreen", "white", "black"])
+    cmap = ListedColormap(["green", "white", "lightgrey"])
     #plt.imshow(res, cmap="binary_r")
     plt.imshow(res, cmap=cmap, vmin=-1, vmax=1)
     plt.xticks([]) 
@@ -38,18 +38,21 @@ def test_1 ():
 
 def test_2 ():
     A = dfs(500)
-    sol=A.sol()
+    sol=A.solve()
     print (sol)
     #print (A.visited)
 
 #test_2()
 def test_3():
-    A = dfs(10)
-    visual(A.n, A.sol())
+    A = dfs(4)
+    lst = A.solve()
+    print(lst)
+    visual(A.n, lst)
 
 def test_4():
-    A = hillclimbing(100)
-    lst = A.sol()
+    A = hillclimbing(1000)
+    lst = A.sol_1()
     #visual(A.n, lst)
     print (lst)
-test_4()
+test_3()
+gen_tree()
