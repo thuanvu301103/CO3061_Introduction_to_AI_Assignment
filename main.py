@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from nqueens import *
 import numpy as np 
 import matplotlib.pyplot as plt 
@@ -48,6 +50,7 @@ def test_3():
     lst = A.solve()
     print(lst)
     visual(A.n, lst)
+    gen_tree(A.n)
 
 def test_4():
     A = hillclimbing(1000)
@@ -55,4 +58,3 @@ def test_4():
     #visual(A.n, lst)
     print (lst)
 test_3()
-gen_tree()

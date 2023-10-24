@@ -1,23 +1,59 @@
+# -*- coding: utf-8 -*-
+
 import random
 import numpy as np
 import copy
 from treelib import Node, Tree
+import ast
+import matplotlib.pyplot as plt 
+from matplotlib.colors import LogNorm, ListedColormap
 
-def gen_tree ():
+
+def visual(n, lst): 
+    #if lst == []: 
+    #    return
+    dx, dy = 1, 1
+    P = np.arange(-8.0, 8.0, dx) 
+    Q = np.arange(-8.0, 8.0, dy)  
+    min_max = np.min(P), np.max(P), np.min(Q), np.max(Q) 
+    res = np.add.outer(range(n), range(n)) % 2
+    for i in range(len(lst)):
+        res[lst[i]-1][i] = -1
+    cmap = ListedColormap(["green", "white", "lightgrey"])
+    plt.imshow(res, cmap=cmap, vmin=-1, vmax=1)
+    plt.xticks([]) 
+    plt.yticks([]) 
+    #plt.title("Using Matplotlib Python to Create chessboard") 
+    plt.show()
+
+def gen_tree (n):
     with open ("visitedtree.txt", "r") as fp:
-        lines = fp.readlines()
-        num_node = len(lines)
-        print ("Number of visited states: " + str(num_node))
+        lines = fp.read().splitlines()
+        states = []
+        for i in range (len(lines)):
+            state = ast.literal_eval(lines[i])
+            states += [state]
+        print (states)
+        print ("Number of visited states: " + str(len(states)))
     tree = Tree()
+    for i in range(len(states)):
+        if len(states[i]) == 0:
+            tree.create_node("start", f"{i}")
+        else:
+            parent = i
+            while (len(states[parent])+1 != len(states[i])):
+                parent = parent - 1
+            if len(states[i]) == n:
+                tree.create_node("final", f"{i}", f"{parent}")
+            else:
+                tree.create_node(f"[{i}]", f"{i}", f"{parent}" )  
+    tree.save2file ('tree.txt')
+    print ("Enter <end> to stop traver tree.")
+    a = input("Traver node: ")
+    while a != "end":
+        visual(n, states[int(a)])
+        a = input("Traver node: ")
 
-    tree.create_node("Harry", "harry")  # No parent means its the root node
-    tree.create_node("Jane",  "jane"   , parent="harry")
-    tree.create_node("Bill",  "bill"   , parent="harry")
-    tree.create_node("Diane", "diane"  , parent="jane")
-    tree.create_node("Mary",  "mary"   , parent="diane")
-    tree.create_node("Mark",  "mark"   , parent="jane")
-
-    tree.show()
 
 class n_queens:
     def __init__(self, n):
