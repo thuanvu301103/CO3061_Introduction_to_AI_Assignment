@@ -21,7 +21,7 @@ def test_3():
 
 
 def test_4():
-    A = hillclimbing(100)
+    A = hillclimbing(500)
     lst = A.solve_1()
     print(lst)
     print("Answaer is correct") if check_sol(lst) else print ("Answaer is incorrect")
