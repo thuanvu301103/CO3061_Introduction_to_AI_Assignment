@@ -35,88 +35,82 @@ class dfs (blind_search):
     def solve (self):
 
         visited = open("visitedstates.txt", "w")
-
         self.initstate = np.array([], dtype="i")
-
         stack = [self.initstate]
-        while len(stack) != 0:
-            curr_state = stack.pop(-1)
-            #print(curr_state)
 
+        while len(stack) != 0:
+
+            curr_state = stack.pop(-1)
             self.add_state(visited, curr_state)
 
             if len(curr_state) == self.n:
                 visited.close()
                 return curr_state
+
             row = np.arange(1,self.n+1)
             np.random.shuffle(row)
             # Generate all possible successor states by applying add_queen()
             for i in row:
                 new_state = self.add_queen(curr_state, i)
-                if len(curr_state) == self.n:
-                    return curr_state
+                if len(new_state) == self.n: return new_state
                 if len(new_state) == 0: continue
                 stack += [new_state] 
-
+        
         print ("No solution")
-
         visited.close()
-        tree.save2file ('tree.txt', sorting=False)
         return np.array([], dtype="i")
-
+        
 class brfs (blind_search):
 
     def solve (self):
 
         visited = open("visitedstates.txt", "w")
-
         self.initstate = np.array([], dtype="i")
         p_queue = [self.initstate]
-        while len(p_queue) != 0:
-            curr_state = p_queue.pop(0)
 
+        while len(p_queue) != 0:
+
+            curr_state = p_queue.pop(0)
             self.add_state(visited, curr_state)
 
-            #print(curr_state)
             if len(curr_state) == self.n:
                 visited.close()
                 return curr_state
+
             row = np.arange(1,self.n+1)
             np.random.shuffle(row)
             # Generate all possible successor states by applying add_queen()
             for i in row:
                 new_state = self.add_queen(curr_state, i)
-                if len(curr_state) == self.n:
-                    return curr_state
+                if len(new_state) == self.n: return new_state
                 if len(new_state) == 0: continue
                 p_queue += [new_state] 
+
         print ("No solution")
         visited.close()
         return []
 
 class hillclimbing (n_queens):
 
-    def f(self, state):
-        f = 0
+    def h(self, state):
+        h = 0
         i = 1
         while i < self.n: 
-        #for i in range(1, self.n):
             row_curr = state[i-1]
             j = i+1
             while j < self.n+1:
-            #for j in range(i+1, self.n+1):
                 row = state[j-1]
-                if row == row_curr: f += 1
-                elif abs(row_curr-row) == abs(i-j): f += 1
+                if row == row_curr: h += 1
+                elif abs(row_curr-row) == abs(i-j): h += 1
                 j += 1
             i +=1
-        return f
+        return h
 
     def get_neighbour(self, state):
         # optimal state with minumun heuristic function value
         op_state = state
-        init_f = self.f(op_state)
-        f = init_f
+        init_h = self.h(op_state)
+        h = init_h
         neighbour_state = np.copy(state)
         op_state_lst = []
         #neighbour_state_lst = []
@@ -127,13 +121,13 @@ class hillclimbing (n_queens):
                 # condition for skipping the curent state
                 if j != state[i-1]:
                     neighbour_state[i-1] = j
-                    temp = self.f(neighbour_state)
+                    temp = self.h(neighbour_state)
                     if temp == 0: return (neighbour_state, 0)
-                    if temp <= f:
-                        if temp < f:
+                    if temp <= h:
+                        if temp < h:
                             op_state_lst = []
                         op_state_lst += [neighbour_state]
-                        f = temp
+                        h = temp
                     neighbour_state = np.copy(state)
                 j += 1
             i+=1
@@ -142,38 +136,51 @@ class hillclimbing (n_queens):
             op_state = op_state_lst[random.randint(0, len(op_state_lst)-1)]
         elif len(op_state_lst) == 1:
             op_state = op_state_lst[0]
-        return (op_state, f)
+        return (op_state, h)
 
     def solve(self):
 
         visited = open("visitedstates.txt", "w")
-        visited_f = open("visited_heuristicfunc.txt", "w")
-
-        self.initstate = np.random.randint(1, self.n+1, size=self.n)
-        neighbour_state = self.initstate
-        init_f = self.f(self.initstate)
+        visited_h = open("visited_heuristicfunc.txt", "w")
+        self.initstate = np.arange(1,self.n+1)
+        np.random.shuffle(self.initstate)
+        init_h = self.h(self.initstate)
+        if init_h == 0: return self.initstate
         count_repeat = 0
+        count_local = 0
+        neighbour_state = self.initstate
+        
         while True:
             # generate current state since neighbour state has become curent state
             curr_state = neighbour_state
-            (neighbour_state, neighbour_f) = self.get_neighbour(curr_state)
-
+            (neighbour_state, neighbour_h) = self.get_neighbour(curr_state)
             self.add_state(visited, neighbour_state)
-            visited_f.write(str(neighbour_f) + "\n")
+            visited_h.write(str(neighbour_h) + "\n")
 
-            if neighbour_f == 0:
+            if neighbour_h == 0:
                 visited.close()
-                visited_f.close()
+                visited_h.close()
                 return neighbour_state
             if (neighbour_state == curr_state).all():
-                visited.close()
-                visited_f.close()
-                print ("No solution")
-                return
-            elif self.f(curr_state) == neighbour_f:
+                count_local += 1
+                if count_local > self.n:
+                    visited.close()
+                    visited_h.close()
+                    print ("No solution")
+                    return np.array([], dtype="i")
+                neighbour_state = np.arange(1,self.n+1)
+                np.random.shuffle(neighbour_state)
+            elif self.h(curr_state) == neighbour_h:
                 count_repeat += 1
                 if (count_repeat <= self.n): continue
-                neighbour_state = np.random.randint(1, self.n+1, size=self.n)
+                count_local += 1
+                if count_local > self.n:
+                    visited.close()
+                    visited_h.close()
+                    print ("No solution")
+                    return np.array([], dtype="i")
+                neighbour_state = np.arange(1,self.n+1)
+                np.random.shuffle(neighbour_state)
             count_repeat = 0
 
     # Improvement
@@ -182,7 +189,6 @@ class hillclimbing (n_queens):
         i = 1
         row_curr = state[q-1]
         while i < self.n+1:
-            #print (i)
             if i == q:
                 i += 1
                 continue
@@ -195,8 +201,8 @@ class hillclimbing (n_queens):
     def get_neighbour_1(self, state):
         # optimal state with minumun heuristic function value
         op_state = state
-        init_f = self.f(op_state)
-        f = init_f
+        init_h = self.h(op_state)
+        h = init_h
         neighbour_state = np.copy(state)
         op_state_lst = []
         #neighbour_state_lst = []
@@ -208,13 +214,13 @@ class hillclimbing (n_queens):
                 # condition for skipping the curent state
                 if j != state[i-1]:
                     neighbour_state[i-1] = j
-                    temp = self.f(neighbour_state)
+                    temp = self.h(neighbour_state)
                     if temp == 0: return (neighbour_state, 0)
-                    if temp <= f:
-                        if temp < f:
+                    if temp <= h:
+                        if temp < h:
                             op_state_lst = []
                         op_state_lst += [neighbour_state]
-                        f = temp
+                        h = temp
                     neighbour_state = np.copy(state)
                 j += 1
         #if init_f == f: return (op_state, f)
@@ -222,40 +228,52 @@ class hillclimbing (n_queens):
                 op_state = op_state_lst[random.randint(0, len(op_state_lst)-1)]
             elif len(op_state_lst) == 1:
                 op_state = op_state_lst[0]
-            return (op_state, f)
-        return (op_state, f)
+            return (op_state, h)
+        return (op_state, h)
  
     def solve_1(self):
         
         visited = open("visitedstates.txt", "w")
-        visited_f = open("visited_heuristicfunc.txt", "w")
+        visited_h = open("visited_heuristicfunc.txt", "w")
 
         self.initstate = np.arange(1,self.n+1)
         np.random.shuffle(self.initstate)
         neighbour_state = self.initstate
-        init_f = self.f(self.initstate)
+        init_h = self.h(self.initstate)
         count_repeat = 0
+        count_local = 0
         while True:
             # generate current state since neighbour state has become curent state
             curr_state = neighbour_state
-            (neighbour_state, neighbour_f) = self.get_neighbour_1(curr_state)
+            (neighbour_state, neighbour_h) = self.get_neighbour_1(curr_state)
+            #print ("h= ", neighbour_h, neighbour_state)
 
             self.add_state(visited, neighbour_state)
-            visited_f.write(str(neighbour_f) + "\n")
+            visited_h.write(str(neighbour_h) + "\n")
 
-            if neighbour_f == 0:
+            if neighbour_h == 0:
                 visited.close()
-                visited_f.close()
+                visited_h.close()
                 return neighbour_state
             
-            #if (neighbour_state == curr_state).all():
-                #visited.close()
-                #print ("No solution")
-                #return []
-
-            elif self.f(curr_state) == neighbour_f:
+            if (neighbour_state == curr_state).all():
+                count_local += 1
+                if count_local > self.n:
+                    visited.close()
+                    visited_h.close()
+                    print ("No solution")
+                    return np.array([], dtype="i")
+                neighbour_state = np.arange(1,self.n+1)
+                np.random.shuffle(neighbour_state)
+            elif self.h(curr_state) == neighbour_h:
                 count_repeat += 1
                 if (count_repeat <= self.n): continue
+                count_local += 1
+                if count_local > self.n:
+                    visited.close()
+                    visited_h.close()
+                    print ("No solution")
+                    return np.array([], dtype="i")
                 neighbour_state = np.arange(1,self.n+1)
                 np.random.shuffle(neighbour_state)
             count_repeat = 0

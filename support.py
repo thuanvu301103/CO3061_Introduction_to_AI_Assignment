@@ -68,6 +68,7 @@ def gen_tree_dfs (n):
         
         #print ("Number of visited states: " + str(len(states)))
     tree = Tree()
+    print (states)
     for i in range(len(states)):
         if len(states[i]) == 0:
             tree.create_node("start", f"{i+1}")
